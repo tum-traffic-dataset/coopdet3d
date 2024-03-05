@@ -1,0 +1,8 @@
+model:
+  type: BEVFusionCoop
+  vehicle: null
+  infrastructure: null
+  coop_fuser:
+  decoder: null
+  heads:
+    map: null

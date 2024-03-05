@@ -1,0 +1,12 @@
+model:
+  infrastructure:
+    fusion_model:
+      encoders:
+        camera: null
+  coop_fuser:
+    type: MaxFuser
+    #type: ConvCoopFuser
+    in_channels: [256, 256]
+    out_channels: 256
+
+gt_paste_stop_epoch: 15

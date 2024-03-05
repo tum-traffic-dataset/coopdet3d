@@ -1,0 +1,76 @@
+voxel_size: [0.075, 0.075, 0.2]
+point_cloud_range: [-75.0, -75.0, -8.0, 75.0, 75.0, 0.0]
+
+model:
+  infrastructure:
+    fusion_model:
+      fuser:
+        type: ConvFuser
+        in_channels: [80, 256]
+        out_channels: 256
+      encoders:
+        camera:
+          backbone:
+            # YOLOv8 n
+            #type: YOLOv8CSPDarknet
+            #arch: P5
+            #last_stage_out_channels: 1024
+            #deepen_factor: 0.33
+            #widen_factor: 0.25
+            #norm_cfg:
+            #  type: BN
+            #  momentum: 0.03
+            #  eps: 0.001
+            #act_cfg:
+            #  type: SiLU
+            #  inplace: True
+            #init_cfg:
+            #  type: Pretrained
+            #  checkpoint: /home/coopdet3d/weights/yolov8_n_syncbn_fast_8xb16-500e_coco_20230114_131804-88c11cdb.pth
+
+            # YOLOv8 s
+            type: YOLOv8CSPDarknet
+            arch: P5
+            last_stage_out_channels: 1024
+            deepen_factor: 0.33
+            widen_factor: 0.5
+            norm_cfg:
+              type: BN
+              momentum: 0.03
+              eps: 0.001
+            act_cfg:
+              type: SiLU
+              inplace: True
+            init_cfg:
+              type: Pretrained
+              checkpoint: /home/coopdet3d/weights/yolov8_s_syncbn_fast_8xb16-500e_coco_20230117_180101-5aa5f0f1.pth
+          neck:
+            # YOLOv8 n
+            #in_channels: [64, 128, 256]
+            # YOLOv8 s
+            in_channels: [128, 256, 512]
+            out_channels: 256
+          vtransform:
+            xbound: [-75.0, 75.0, 0.3]
+            ybound: [-75.0, 75.0, 0.3]
+        lidar:
+          voxelize:
+            point_cloud_range: ${point_cloud_range}
+            voxel_size: ${voxel_size}
+            max_voxels: [120000, 160000]
+            deterministic: false
+          backbone:
+            sparse_shape: [2000, 2000, 41]
+  heads:
+    object:
+      train_cfg:
+        grid_size: [2000, 2000, 41]
+      test_cfg:
+        grid_size: [2000, 2000, 41]
+
+lr_config:
+  policy: CosineAnnealing
+  warmup: linear
+  warmup_iters: 500
+  warmup_ratio: 0.33333333
+  min_lr_ratio: 1.0e-3

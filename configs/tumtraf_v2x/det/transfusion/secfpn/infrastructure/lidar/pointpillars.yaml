@@ -1,0 +1,74 @@
+# 512x512
+#voxel_size: [0.293, 0.293, 8]
+# 768x768
+voxel_size: [0.1953, 0.1953, 8]
+# 1024x1024
+#voxel_size: [0.1465, 0.1465, 8]
+point_cloud_range: [-75.0, -75.0, -8.0, 75.0, 75.0, 0.0]
+
+model:
+  infrastructure:
+    fusion_model:
+      encoders:
+        lidar:
+          voxelize_reduce: false
+          voxelize:
+            max_num_points: 20
+            point_cloud_range: ${point_cloud_range}
+            voxel_size: ${voxel_size}
+            max_voxels: [30000, 60000]
+            deterministic: false
+          backbone:
+            type: PointPillarsEncoder
+            pts_voxel_encoder:
+              type: PillarFeatureNet
+              in_channels: 5
+              feat_channels: [64, 64]
+              with_distance: false
+              point_cloud_range: ${point_cloud_range}
+              voxel_size: ${voxel_size}
+              norm_cfg:
+                type: BN1d
+                eps: 1.0e-3
+                momentum: 0.01
+            pts_middle_encoder:
+              type: PointPillarsScatter
+              in_channels: 64
+              #output_shape: [512, 512]
+              output_shape: [768, 768]
+              #output_shape: [1024, 1024]
+  decoder:
+    backbone:
+      in_channels: 64
+      out_channels: [64, 128, 256]
+      layer_nums: [3, 5, 5]
+      layer_strides: [2, 2, 2]
+    neck:
+      in_channels: [64, 128, 256]
+      out_channels: [128, 128, 128]
+      upsample_strides: [0.5, 1, 2]
+  heads:
+    object:
+      in_channels: 384
+      train_cfg:
+        #grid_size: [512, 512, 1]
+        grid_size: [768, 768, 1]
+        #grid_size: [1024, 1024, 1]
+        out_size_factor: 4
+      test_cfg:
+        #grid_size: [512, 512, 1]
+        #grid_size: [1024, 1024, 1]
+        #grid_size: [768, 768, 1]
+        grid_size: [1536, 1536, 1]
+        #grid_size: [2048, 2048, 1]
+        #out_size_factor: 4
+        out_size_factor: 8 # for 2x
+      bbox_coder:
+        out_size_factor: 4
+
+#lr_config:
+#  policy: CosineAnnealing
+#  warmup: linear
+#  warmup_iters: 500
+#  warmup_ratio: 0.33333333
+#  min_lr_ratio: 1.0e-3

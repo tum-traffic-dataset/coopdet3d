@@ -1,0 +1,54 @@
+voxel_size: [0.075, 0.075, 0.2]
+point_cloud_range: [-75.0, -75.0, -8.0, 75.0, 75.0, 0.0]
+
+model:
+  vehicle:
+    fusion_model:
+      init_cfg:
+        type: Pretrained
+        checkpoint: pretrained/lidar-only-det.pth
+      encoders:
+        lidar:
+          voxelize:
+            max_num_points: 10
+            point_cloud_range: ${point_cloud_range}
+            voxel_size: ${voxel_size}
+            max_voxels: [120000, 160000]
+            deterministic: false # Set to true for deterministic hard voxelization
+          backbone:
+            type: SparseEncoder
+            in_channels: 5
+            sparse_shape: [2000, 2000, 41]
+            output_channels: 128
+            order:
+              - conv
+              - norm
+              - act
+            encoder_channels:
+              - [16, 16, 32]
+              - [32, 32, 64]
+              - [64, 64, 128]
+              - [128, 128]
+            encoder_paddings:
+              - [0, 0, 1]
+              - [0, 0, 1]
+              - [0, 0, [1, 1, 0]]
+              - [0, 0]
+            block_type: basicblock
+  heads:
+    object:
+      train_cfg:
+        grid_size: [2000, 2000, 41]
+      test_cfg:
+        grid_size: [2000, 2000, 41]
+
+# If reduce batch size to to, use:
+#optimizer_config:
+#  cumulative_iters: 2
+
+lr_config:
+  policy: CosineAnnealing
+  warmup: linear
+  warmup_iters: 500
+  warmup_ratio: 0.33333333
+  min_lr_ratio: 1.0e-3

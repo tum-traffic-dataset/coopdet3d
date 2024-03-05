@@ -1,0 +1,13 @@
+freeze: false
+
+model:
+  vehicle:
+    fusion_model:
+      type: BEVFusionHeadless
+      encoders: null
+      fuser: null
+  infrastructure:
+    fusion_model:
+      type: BEVFusionHeadless
+      encoders: null
+      fuser: null

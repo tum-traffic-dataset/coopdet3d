@@ -1,0 +1,114 @@
+model:
+  vehicle:
+    fusion_model:
+      encoders:
+        camera:
+          backbone:
+            # YOLOv8 n
+            #type: YOLOv8CSPDarknet
+            #arch: P5
+            #last_stage_out_channels: 1024
+            #deepen_factor: 0.33
+            #widen_factor: 0.25
+            #norm_cfg:
+            #  type: BN
+            #  momentum: 0.03
+            #  eps: 0.001
+            #act_cfg:
+            #  type: SiLU
+            #  inplace: True
+            #init_cfg:
+            #  type: Pretrained
+            #  checkpoint: /home/coopdet3d/weights/yolov8_n_syncbn_fast_8xb16-500e_coco_20230114_131804-88c11cdb.pth
+            
+            # YOLOv8 s
+            type: YOLOv8CSPDarknet
+            arch: P5
+            last_stage_out_channels: 1024
+            deepen_factor: 0.33
+            widen_factor: 0.5
+            norm_cfg:
+              type: BN
+              momentum: 0.03
+              eps: 0.001
+            act_cfg:
+              type: SiLU
+              inplace: True
+            init_cfg:
+              type: Pretrained
+              checkpoint: /home/coopdet3d/weights/yolov8_s_syncbn_fast_8xb16-500e_coco_20230117_180101-5aa5f0f1_new.pth
+          neck:
+            type: GeneralizedLSSFPN
+            # YOLOv8 n
+            #in_channels: [64, 128, 256]
+            # YOLOv8 s
+            in_channels: [128, 256, 512]
+            out_channels: 256
+            start_level: 0
+            num_outs: 3
+            norm_cfg:
+              type: BN2d
+              requires_grad: true
+            act_cfg:
+              type: ReLU
+              inplace: true
+            upsample_cfg:
+              mode: bilinear
+              align_corners: false      
+          vtransform:
+            in_channels: 256
+            out_channels: 80
+            feature_size: ${[image_size[0] // 8, image_size[1] // 8]}
+            #xbound: [-75.0, 75.0, 0.4] #375 out
+            #ybound: [-75.0, 75.0, 0.4] #375 out
+            xbound: [-75.0, 75.0, 0.3] #250 out
+            ybound: [-75.0, 75.0, 0.3] #250 out
+            zbound: [-10.0, 10.0, 20.0]
+            dbound: [1.0, 60.0, 0.5]
+            downsample: 2
+  decoder:
+    backbone:
+      type: GeneralizedResNet
+      in_channels: 80
+      blocks:
+        - [2, 128, 2]
+        - [2, 256, 2]
+        - [2, 512, 1]
+    neck:
+      type: LSSFPN
+      in_indices: [-1, 0]
+      in_channels: [512, 128]
+      out_channels: 256
+      scale_factor: 2
+
+optimizer:
+  lr: 2.0e-4
+  paramwise_cfg:
+    custom_keys:
+      absolute_pos_embed:
+        decay_mult: 0
+      relative_position_bias_table:
+        decay_mult: 0
+      encoders.camera.backbone:
+        lr_mult: 0.1
+
+lr_config:
+  policy: cyclic
+  target_ratio: 5.0
+  cyclic_times: 1
+  step_ratio_up: 0.4
+
+#lr_config:
+#  min_lr_ratio: 0.001
+#  policy: CosineAnnealing
+#  warmup: linear
+#  warmup_iters: 500
+#  warmup_ratio: 0.33333333
+
+momentum_config:
+  policy: cyclic
+  cyclic_times: 1
+  step_ratio_up: 0.2
+
+data:
+  samples_per_gpu: 6
