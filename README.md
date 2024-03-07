@@ -1,10 +1,18 @@
 # CoopDet3D: Deep Multi-Modal Cooperative 3D Object Detection of Traffic Participants Using Onboard and Roadside Sensors
+<div align="center">
+<a href="https://tum-traffic-dataset.github.io/tumtraf-v2x"><img src="https://img.shields.io/badge/Website-CoopDet3D-0065BD.svg" alt="Website Badge"/></a>
+<a href="https://innovation-mobility.com/en/project-providentia/a9-dataset/#anchor_release_4"><img src="https://img.shields.io/badge/Dataset-TUMTraf_V2X-0065BD.svg?style=flat&logo=github&logoColor=white" alt="Github Badge"/></a>
+<a href="https://github.com/tum-traffic-dataset/tum-traffic-dataset-dev-kit"><img src="https://img.shields.io/badge/Dev_Kit-code-E37222.svg?style=flat&logo=github&logoColor=white" alt="Github Badge"/></a>
+<a href="https://arxiv.org/pdf/2403.01316.pdf"><img src="https://img.shields.io/badge/Paper-TUMTraf_V2X-a2ad00.svg" alt="Paper Badge"/></a>
 
-[![website](https://img.shields.io/badge/Website-100000?style=flat&logo=GitHub%20Pages&logoColor=white)](https://tum-traffic-dataset.github.io/tumtraf-v2x)
-[![dev-kit](https://img.shields.io/badge/Development%20Kit-100000?style=flat&logo=github&logoColor=white)](https://github.com/tum-traffic-dataset/tum-traffic-dataset-dev-kit)
-[![annotation-tool](https://img.shields.io/badge/Annotation%20Tool-100000?style=flat&logo=github&logoColor=white)](https://github.com/walzimmer/3d-bat)
-[![dataset](https://img.shields.io/badge/TUMTraf_V2X%20Dataset%20v1.1-Download-100000?style=flat)](https://innovation-mobility.com/tumtraf-dataset)
-
+<a href="https://github.com/walzimmer/3d-bat"><img src="https://img.shields.io/badge/Labeling_Tool-3D_BAT-BC4E99.svg?style=flat&logo=github" alt="Paper Badge"/></a>
+<a href="https://ieeexplore.ieee.org/document/8814071"><img src="https://img.shields.io/badge/Paper-3D_BAT-0E2B3A.svg?style=flat&logo=ieee" alt="Paper Badge"/></a>
+<a href="https://github.com/walzimmer/3d-bat/stargazers"><img src="https://img.shields.io/github/stars/tum-traffic-dataset/coopdet3d" alt="Stars Badge"/></a>
+<a href="https://github.com/walzimmer/3d-bat/network/members"><img src="https://img.shields.io/github/forks/tum-traffic-dataset/coopdet3d" alt="Forks Badge"/></a>
+<a href="https://github.com/walzimmer/3d-bat/pulls"><img src="https://img.shields.io/github/issues-pr/tum-traffic-dataset/coopdet3d" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/walzimmer/3d-bat/issues"><img src="https://img.shields.io/github/issues/tum-traffic-dataset/coopdet3d" alt="Issues Badge"/></a>
+<a href="https://a9-dataset.innovation-mobility.com/license"><img src="https://img.shields.io/badge/license-custom-2b9348.svg" alt="Issues Badge"/></a>
+</div>
 
 <p align="center">
 <img src="imgs/coopdet3d_architecture_v2.png" width="1000" alt="" class="img-responsive">
@@ -14,15 +22,20 @@
 
 Cooperative perception offers several benefits for enhancing the capabilities of autonomous vehicles and improving road safety. Using roadside sensors in addition to onboard sensors increases reliability and extends the sensor range. External sensors offer higher situational awareness for automated vehicles and prevent occlusions. We propose CoopDet3D, a cooperative multi-modal fusion model, and TUMTraf-V2X, a dataset for the cooperative 3D object detection and tracking task. Our dataset contains 2,000 labeled point clouds and 5,000 labeled images from five roadside and four onboard sensors. It includes 30k 3D boxes with track IDs and precise GPS and IMU data. We labeled nine categories and covered occlusion scenarios with challenging driving maneuvers, like traffic violations, near-miss events, overtaking, and U-turns. Through multiple experiments, we show that our CoopDet3D camera-LiDAR fusion model achieves an increase of +14.36 3D mAP compared to a vehicle camera-LiDAR fusion model. Finally, we make our dataset, model, labeling tool, and dev-kit publicly available: https://tum-traffic-dataset.github.io/tumtraf-v2x.
 
-## Overview
+## Overview ✨
+- [News](#news)
 - [Features](#features)
-- [Data Download](#data-download)
+- [Dataset Download](#dataset-download)
 - [Pretrained Weights](#pretrained-weights)
 - [Usage](#usage)
 - [Benchmark](#benchmark)
 - [Acknowledgment](#acknowledgement)
 
-## Features
+## News 📢
+- 2024/02: 🏆 Accepted paper at [CVPR'24](https://cvpr.thecvf.com/) conference: [TUMTraf V2X Cooperative Perception Dataset](https://arxiv.org/pdf/2403.01316.pdf)
+- 2023/11: First release of the CoopDet3D model (v1.0.0)
+
+## Features 🔥
 - Support vehicle-only, infrastructure-only, and cooperative modes
     - [x] Vehicle-only
     - [x] Infrastructure-only
@@ -45,7 +58,7 @@ Cooperative perception offers several benefits for enhancing the capabilities of
 - Export inference results to OpenLABEL format
     - [x] Inference to OpenLABEL
 
-## Data Download
+## Dataset Download 📂
 
 1. There are two versions of the [TUMTraf V2X Cooperative Perception Dataset](https://arxiv.org/pdf/2403.01316.pdf) (Release R4) provided:
 
@@ -89,7 +102,7 @@ coopdet3d
 
 
 
-## Pretrained Weights
+## Pretrained Weights 🚀
 
 The pre-trained CoopDet3D weights can be downloaded from [here](https://nx21496.your-storageshare.de/s/MYW3dSJz7sCwRbH).
 
@@ -108,7 +121,7 @@ Use these weights to get the best results from the tables below:
 [coopdet3d_tumtraf_i_cl_pointpillars512_2x_yolos_transfer_learning_best.pth](https://nx21496.your-storageshare.de/s/28HAwnT6RZg3XQ7)
 - TUMTraf V2X Cooperative Perception Dataset: [coopdet3d_vi_cl_pointpillars512_2xtestgrid_yolos_transfer_learning_best.pth](https://nx21496.your-storageshare.de/s/HiLBkE5WGeFKYSm)
 
-## Usage
+## Usage 🌟
 
 ### Working with Docker
 
@@ -429,7 +442,7 @@ For split, naturally one could also choose "train" or "val". For mode, the other
 
 **NOTE: Ground truth visualization on test set will not work since the test set provided is missing the ground truth.**
 
-## Benchmark
+## Benchmark 🎯
 
 ### Evaluation Results (mAP<sub>BEV</sub> and mAP<sub>3D</sub> ) of CoopDet3D on TUMTraf V2X Cooperative Perception Dataset Test Set in South 2 FOV
 
@@ -458,11 +471,11 @@ For split, naturally one could also choose "train" or "val". For mode, the other
 | InfraDet3D | South 2 | Camera + LiDAR | 58.38 | 19.73 | 33.08 | 37.06 |
 | CoopDet3D | South 2 | Camera + LiDAR | **74.73** | **53.46** | **41.96** | **66.89** |
 
-## Acknowledgement
+## Acknowledgement 🤝 
 
 The codebase is built upon [BEVFusion](https://github.com/mit-han-lab/bevfusion) with vehicle-infrastructure fusion inspired by the method proposed in [PillarGrid](https://arxiv.org/pdf/2203.06319.pdf).
 
-## Citation
+## Citation 📝
 ```
 @inproceedings{zimmer2024tumtrafv2x,
   title={TUMTraf V2X Cooperative Perception Dataset},
@@ -472,3 +485,9 @@ The codebase is built upon [BEVFusion](https://github.com/mit-han-lab/bevfusion)
   year={2024}
 }
 ```
+
+## License 📜
+
+- The CoopDet3D model is released under MIT license as found in the license file.
+- The TUM Traffic Dataset (`TUMTraf`) dataset itself is released under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+By downloading the dataset you agree to the [terms](https://a9-dataset.innovation-mobility.com/license) of this license.
